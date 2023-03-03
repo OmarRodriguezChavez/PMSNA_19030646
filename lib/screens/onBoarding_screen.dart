@@ -77,7 +77,7 @@ class OnboardingPage extends StatelessWidget {
     CardPlanetData(
       title: "Ingresa a nuestra red social",
       subtitle: "Presiona el botón para inciar sesión",
-      image: const AssetImage("assets/images/logo.png"),
+      image: const AssetImage("assets/images/logoBlanco.png"),
       backgroundColor: const Color.fromRGBO(17, 117, 51, 1),
       titleColor: Color.fromARGB(255, 255, 255, 255),
       subtitleColor: Colors.white,
@@ -87,35 +87,32 @@ class OnboardingPage extends StatelessWidget {
 
   @override
  Widget build(BuildContext context) {
-  return LayoutBuilder(
-    builder: (
-      BuildContext context, 
-      BoxConstraints constraints) {
-      return Responsive(
-        mobile: ConcentricPageView(
-          colors: data.map((e) => e.backgroundColor).toList(),
-          itemCount: data.length,
-          itemBuilder: (int index) {
-            return CardPlanet(data: data[index]);
-          },
-          onFinish: () {
-            Navigator.pushNamed(context, '/login');
-          },
-        ),
-        desktop: ConcentricPageView(
-          colors: data.map((e) => e.backgroundColor).toList(),
-          verticalPosition: 0.85,
-          radius: 1000,
-          itemCount: data.length,
-          itemBuilder: (int index) {
-            return CardPlanet(data: data[index]);
-          },
-          onFinish: () {
-            Navigator.pushNamed(context, '/login');
-          },
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Responsive(
+          mobile: ConcentricPageView(
+            colors: data.map((e) => e.backgroundColor).toList(),
+            itemCount: data.length,
+            itemBuilder: (int index) {
+              return CardPlanet(data: data[index]);
+            },
+            onFinish: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
+          desktop: ConcentricPageView(
+            colors: data.map((e) => e.backgroundColor).toList(),
+            verticalPosition: 0.85,
+            radius: 1000,
+            itemCount: data.length,
+            itemBuilder: (int index) {
+              return CardPlanet(data: data[index]);
+            },
+            onFinish: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
         ),
       );
-    },
-  );
 }
 }
