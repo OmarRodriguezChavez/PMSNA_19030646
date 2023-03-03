@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:psmna10/card_welcome.dart';
 import '../responsive.dart';
+
 class OnboardingPage extends StatelessWidget {
   OnboardingPage({Key? key}) : super(key: key);
 
