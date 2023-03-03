@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (form!.validate()){
       showDialog(
         context: context,
-         builder: (context) => AlertDialog(
+         builder: (context) => const AlertDialog(
           title: Text('Confirmación de envio.'),
           content: Text('Registro enviado exitosamente :D'),
          )
@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context, 
       builder: (BuildContext context){
         return AlertDialog(
-          contentPadding: EdgeInsets.all(0),
+          contentPadding:const  EdgeInsets.all(0),
           content: SingleChildScrollView(
             child: Column(
               children: [
@@ -61,8 +61,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     selectImage(1);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
+                    padding:const  EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
                           width: 1,
@@ -71,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       )
                     ),
                     child: Row(
-                      children: [
+                      children:const [
                         Expanded(
                           child: Text('Tomar una fotografia', style: TextStyle(fontSize: 16),
                           ),
@@ -89,9 +89,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     selectImage(2);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Row(
-                      children: [
+                      children:const [
                         Expanded(
                           child: Text('Escoge una imagen existente', style: TextStyle(fontSize: 16),
                           ),
@@ -109,12 +109,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(20),
+                    decoration:const  BoxDecoration(
                       color: Colors.black
                     ),
                     child: Row(
-                      children: [
+                      children:const [
                         Expanded(
                           child: Text('Cancelar', style: TextStyle(fontSize: 16, color: Colors.white), textAlign: TextAlign.center,
                           ),
@@ -130,36 +130,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     );
   }
-  bool _showPassword=false;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Registro'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              image==null ? Center(): Image.file(image!, width: 150, height: 220, alignment: Alignment.topCenter),
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Color.fromARGB(255, 148, 218, 161),
-                child: IconButton(
-                  color: Colors.black,
-                  padding: EdgeInsets.all(15),
-                  iconSize: 30,
-                  icon: Icon(Icons.add_photo_alternate_sharp),
-                  onPressed: (){
-                    options(context);
-                  },
-                ),
-              ),
-              TextFormField(
-                decoration: InputDecoration(
+  final username=TextFormField(
+                decoration: const InputDecoration(
                   label: Text('Nombre del usuario'), 
                   border: OutlineInputBorder(),
                 ),
@@ -169,9 +141,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
                   return null;
                 },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
+              );
+              final email= TextFormField(
+                decoration: const InputDecoration(
                   label: Text('Correo electronico'), 
                   border: OutlineInputBorder(),
                 ),
@@ -185,13 +157,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                       return null;
                 },
-              ),
+              );
+  bool _showPassword=false;
+  final spaceHorizont = const SizedBox(height: 20);
+  @override
+  Widget build(BuildContext context) {
+    
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text('Registro'),
+      ),
+      
+      body: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
               
+              //image==null ? Center(): Image.file(image!, width: 150, height: 220, alignment: Alignment.topCenter),
+Padding(padding: const EdgeInsets.symmetric(horizontal: 100),
+                child: CircleAvatar(
+                  
+                  radius: 80,
+                  //Color.fromARGB(255, 148, 218, 161)
+                  backgroundImage: image==null
+                  ?  const AssetImage("assets/images/green.JPG")as ImageProvider
+                  : FileImage(File(image!.path)),
+                  //Image.file(image!, width: 150, height: 220, alignment: Alignment.topCenter) ,
+                  child: IconButton(
+                    color: Colors.black,
+                    padding: const EdgeInsets.all(15),
+                    iconSize: 30,
+                    icon: const Icon(Icons.add_photo_alternate_sharp),
+                    onPressed: (){
+                      options(context);
+                    },
+                  ),
+                ),),
+              
+              spaceHorizont,
+              spaceHorizont,
+              username,
+              spaceHorizont,
+             email,
+              spaceHorizont,
               TextFormField(
                 
                 decoration: InputDecoration(
-                  label: Text('Contraseña'), 
-                  border: OutlineInputBorder(),
+                  label: const Text('Contraseña'), 
+                  border: const OutlineInputBorder(),
                   suffixIcon: GestureDetector(
                     child: Icon(_showPassword == false ? Icons.visibility_off : Icons.visibility, color: Color.fromARGB(255, 148, 218, 161),),
                     onTap: (){
@@ -209,8 +226,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               ),
+              spaceHorizont,
+              //symmetric(vertical: 16)
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 100),//EdgeInsets.symmetric(horizontal: 100),
                 child: ElevatedButton(
                   child: Text('Registrarme'),
                   onPressed: _onFormSubmit,

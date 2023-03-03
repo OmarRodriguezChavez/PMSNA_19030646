@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       buttonType: SocialLoginButtonType.github, onPressed: () {});
 
   final imgLogo = Image.asset(
-    'assets/logo.png',
+    'assets/images/logo.png',
     height: 200,
   );
   @override
@@ -137,7 +137,7 @@ class Mobile extends StatelessWidget {
               image: DecorationImage(
                   opacity: .4,
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/fondo.jpg'))),
+                  image: AssetImage('assets/images/fondo.jpg'))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Stack(
@@ -206,7 +206,7 @@ class Tablet extends StatelessWidget {
         image: DecorationImage(
           opacity: .4,
           fit: BoxFit.cover,
-          image: AssetImage('assets/fondo.jpg'),
+          image: AssetImage('assets/images/fondo.jpg'),
         ),
       ),
       child: Row(
@@ -277,7 +277,7 @@ class Desktop extends StatelessWidget {
         image: DecorationImage(
           opacity: .4,
           fit: BoxFit.cover,
-          image: AssetImage('assets/fondo.jpg'),
+          image: AssetImage('assets/images/fondo.jpg'),
         ),
       ),
       child: Row(
