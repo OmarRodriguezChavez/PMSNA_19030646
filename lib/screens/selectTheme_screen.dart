@@ -36,7 +36,7 @@ class ThemeSelectionScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.green.withOpacity(0.8),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
