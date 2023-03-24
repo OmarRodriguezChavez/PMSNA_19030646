@@ -2,6 +2,7 @@ import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psmna10/provider/theme_provider.dart';
+import 'package:psmna10/screens/list_post.dart';
 import 'package:psmna10/settings/styles_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,6 +35,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: Text('Social TEC'),
       ),
+      body: ListPost(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          Navigator.pushNamed(context, '/add').then((value) {
+            setState(() {
+              
+            });
+          });
+        }, 
+        label: const Text('Add Post'),
+        icon: const Icon(Icons.add_comment),
+      ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -58,6 +71,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               title: Text('Práctica 1'),
               subtitle: Text('Descripción de la práctica'),
               leading: Icon(Icons.settings),
+              trailing: Icon(Icons.chevron_right),
+            ),
+            ListTile(
+              onTap: (){
+                Navigator.pushNamed(context, '/popular');
+              },
+              title: Text('API video'),
+              subtitle: Text('Mira los videos mas populares'),
+              leading: Icon(Icons.movie),
               trailing: Icon(Icons.chevron_right),
             ),
             ListTile(

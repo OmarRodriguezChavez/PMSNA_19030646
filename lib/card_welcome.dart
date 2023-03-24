@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'responsive.dart';
 
-
 class CardPlanetData {
   final String title;
   final String subtitle;
