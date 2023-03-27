@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:psmna10/firebase/email_auth.dart';
 import 'package:psmna10/widgets/loading_modal_widget.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import '../responsive.dart';
@@ -12,14 +13,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
-  final txtEmail = TextFormField(
-    decoration: const InputDecoration(
-        label: Text('Email user'), border: OutlineInputBorder()),
-  );
-  final txtPass = TextFormField(
-    decoration: const InputDecoration(
-        label: Text('Password user'), border: OutlineInputBorder()),
-  );
+  EmailAuth emailAuth= EmailAuth();
+  TextEditingController emailUser = TextEditingController();
+  TextEditingController passwordUser = TextEditingController();
   final spaceHorizont = SizedBox(height: 10);
 
   final btngoogle = SocialLoginButton(
@@ -35,6 +31,16 @@ class _LoginScreenState extends State<LoginScreen> {
   );
   @override
   Widget build(BuildContext context) {
+    final txtEmail = TextFormField(
+      controller: emailUser,
+      decoration: const InputDecoration(
+        label: Text('Email user'), border: OutlineInputBorder()),
+    );
+    final txtPass = TextFormField(
+      controller: passwordUser,
+      decoration: const InputDecoration(
+        label: Text('Password user'), border: OutlineInputBorder()),
+    );
     final txtRegister = Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: TextButton(
@@ -51,14 +57,22 @@ class _LoginScreenState extends State<LoginScreen> {
     final btnEmail = SocialLoginButton(
         buttonType: SocialLoginButtonType.generalLogin,
         onPressed: () {
+          emailAuth.signInWhithEmalAndPassword(
+            email: emailUser.text, 
+            password: passwordUser.text
+            ).then((value) {
+              if(value){
+                Navigator.pushNamed(context, '/dash');
+              }else{
+                //SnakBar error
+              }
+            });
           isLoading = true;
           setState(() {});
-          Future.delayed(Duration(milliseconds: 4000)).then((value) {
+          /*Future.delayed(Duration(milliseconds: 4000)).then((value) {
             isLoading = false;
-            setState(() {});
-            Navigator.pushNamed(context, '/dash');
+            setState(() {});*/
           });
-        });
 
 return Scaffold(
       resizeToAvoidBottomInset: false,
