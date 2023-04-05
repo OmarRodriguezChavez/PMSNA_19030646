@@ -16,7 +16,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  EmailAuth? emailAuth;
+  EmailAuth emailAuth = EmailAuth(); 
   TextEditingController emailUser= TextEditingController();
   TextEditingController passwordUser= TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -173,6 +173,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: const Text('Registro'),
       ),
+      /*emailAuth.createUserWithEmailAndPassword(
+        email: emailUser.text.toString(), 
+        password: passwordUser.text.toString());*/
       
       body: Padding(
         padding: const EdgeInsets.all(40.0),

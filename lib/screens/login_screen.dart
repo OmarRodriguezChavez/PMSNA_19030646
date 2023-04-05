@@ -64,7 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
               if(value){
                 Navigator.pushNamed(context, '/dash');
               }else{
-                //SnakBar error
+                const SnackBar(
+                  content: Text("El correo o la contraseña son incorrectos")
+                );
               }
             });
           isLoading = true;
