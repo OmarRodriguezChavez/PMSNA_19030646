@@ -10,7 +10,7 @@ import 'screens/login_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
   final id_tema=sharedPreferences.getInt('id_tema')??0;
   runApp(MyApp( id_tema :id_tema));

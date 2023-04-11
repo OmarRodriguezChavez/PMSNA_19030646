@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:cross_file/cross_file.dart';
 import 'dart:io';
+
+import '../firebase/email_auth.dart';
 //import 'dart:html';
 
 
@@ -14,6 +16,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  EmailAuth emailAuth = EmailAuth(); 
+  TextEditingController emailUser= TextEditingController();
+  TextEditingController passwordUser= TextEditingController();
   final _formKey = GlobalKey<FormState>();
   void _onFormSubmit(){
     final form = _formKey.currentState;
@@ -168,6 +173,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: const Text('Registro'),
       ),
+      /*emailAuth.createUserWithEmailAndPassword(
+        email: emailUser.text.toString(), 
+        password: passwordUser.text.toString());*/
       
       body: Padding(
         padding: const EdgeInsets.all(40.0),
@@ -232,7 +240,12 @@ Padding(padding: const EdgeInsets.symmetric(horizontal: 100),
                 padding: const EdgeInsets.symmetric(horizontal: 100),//EdgeInsets.symmetric(horizontal: 100),
                 child: ElevatedButton(
                   child: Text('Registrarme'),
-                  onPressed: _onFormSubmit,
+                  onPressed: (){
+                    emailAuth!.createUserWithEmailAndPassword(
+                      email: emailUser.text,
+                      password: passwordUser.text
+                      );
+                  },
                 ),
               )
             ],
@@ -241,4 +254,5 @@ Padding(padding: const EdgeInsets.symmetric(horizontal: 100),
       ),
     );
   }
+  
 }

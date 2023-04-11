@@ -83,6 +83,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               trailing: Icon(Icons.chevron_right),
             ),
             ListTile(
+              onTap: (){
+                Navigator.pushNamed(context, '/events');
+              },
+              title: Text('Eventos'),
+              subtitle: Text('Mira los eventos que ocurrieron u ocurrirán'),
+              leading: Icon(Icons.check_box),
+              trailing: Icon(Icons.chevron_right),
+            ),
+            ListTile(
               onTap: () {
                 Navigator.pushNamed(context, '/login');
               },
