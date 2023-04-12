@@ -30,7 +30,7 @@ class ItemPostWidget extends StatelessWidget {
       height: 250,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 59, 75, 61),
+        color: Color.fromARGB(255, 104, 104, 104),
         borderRadius: BorderRadius.circular(10)
       ),
       child: Column(
@@ -54,7 +54,7 @@ class ItemPostWidget extends StatelessWidget {
               Expanded(child: Container()),
               IconButton(
                 onPressed: (){
-                  Navigator.pushNamed(context, '/ass', arguments: objPostModel);
+                  Navigator.pushNamed(context, '/add', arguments: objPostModel);
                 },
                 icon: Icon(Icons.mode_edit_outlined),
               ),

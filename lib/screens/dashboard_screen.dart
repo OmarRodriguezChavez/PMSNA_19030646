@@ -88,7 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
               title: Text('Eventos'),
               subtitle: Text('Mira los eventos que ocurrieron u ocurrirán'),
-              leading: Icon(Icons.check_box),
+              leading: Icon(Icons.calendar_month_outlined),
               trailing: Icon(Icons.chevron_right),
             ),
             ListTile(

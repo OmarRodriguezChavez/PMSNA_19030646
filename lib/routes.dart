@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:psmna10/screens/Register_screen.dart';
 import 'package:psmna10/screens/add_post_screen.dart';
+import 'package:psmna10/screens/calendar_list.dart';
 import 'package:psmna10/screens/dashboard_screen.dart';
 import 'package:psmna10/screens/events_screen.dart';
 import 'package:psmna10/screens/list_popular_videos.dart';
@@ -14,7 +15,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login': (BuildContext context) => LoginScreen(),
     '/theme':(BuildContext context) => ThemeSelectionScreen(),
     '/add' : (BuildContext context) => AddPostScreen(),
-    '/popular' : (BuildContext context) => ListPopularVideo(),
+    '/popular' : (BuildContext context) => ListPopularVideos(),
     '/events' : (BuildContext context) => CalendarEvents(),
+    '/eventsList': (BuildContext context) => const EventList(),
   };
 }

@@ -5,7 +5,16 @@ import 'package:provider/provider.dart';
 
 
 
-class ThemeSelectionScreen extends StatelessWidget {
+class ThemeSelectionScreen extends StatefulWidget {
+  @override
+  State<ThemeSelectionScreen> createState() => _ThemeSelectionScreenState();
+}
+
+class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
+  void _toggleTheme(theme) {
+    final settings = Provider.of<ThemeProvider>(context, listen: false);
+    settings.toggleTheme(theme);
+  }
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
@@ -36,7 +45,7 @@ class ThemeSelectionScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.green.withOpacity(0.8),
+          color: Color.fromARGB(255, 179, 179, 179).withOpacity(0.8),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -53,7 +62,7 @@ class ThemeSelectionScreen extends StatelessWidget {
             SizedBox(height: 30),
             OutlinedButton(
               onPressed: () {
-                theme.setThemeData(0, context);
+                _toggleTheme('light');
               },
               child: Text(
                 'Tema claro',
@@ -72,7 +81,7 @@ class ThemeSelectionScreen extends StatelessWidget {
             SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {
-                theme.setThemeData(2, context);
+                _toggleTheme('obscure');
               },
               child: Text(
                 'Tema personalizado',
@@ -91,9 +100,9 @@ class ThemeSelectionScreen extends StatelessWidget {
             SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {
-                theme.setThemeData(1, context);
+                _toggleTheme('dark');
               },
-              child: Text('Tema oscuro',
+              child: Text('Tema negro',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -106,43 +115,6 @@ class ThemeSelectionScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/dash');
-                    },
-                    child: Text(
-                      'Guardar',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      primary: Color.fromRGBO(17, 117, 51, 1),
-                      side: BorderSide(width: 2, color: Color.fromRGBO(17, 117, 51, 1)),
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      theme.setThemeData(0, context);
-                      Navigator.pushNamed(context, '/dash');
-                    },
-                    child: Text('Cancelar'),
-                    style: OutlinedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      primary: Color.fromARGB(255, 255, 0, 0),
-                      side: BorderSide(width: 2, color: Color.fromARGB(255, 255, 0, 0)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -162,7 +134,7 @@ class ThemeSelectionScreen extends StatelessWidget {
           width: 600,
           height: 500,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.8),
+            color: Color.fromARGB(255, 216, 216, 216).withOpacity(0.8),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -182,7 +154,7 @@ class ThemeSelectionScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      theme.setThemeData(0, context);
+                      _toggleTheme('light');
                     },
                     child: Text(
                       'Tema claro',
@@ -200,7 +172,7 @@ class ThemeSelectionScreen extends StatelessWidget {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      theme.setThemeData(2, context);
+                      _toggleTheme('obscure');
                     },
                     child: Text(
                       'Tema personalizado',
@@ -218,9 +190,9 @@ class ThemeSelectionScreen extends StatelessWidget {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      theme.setThemeData(1, context);
+                      _toggleTheme('dark');
                     },
-                    child: Text('Tema oscuro',
+                    child: Text('Tema negro',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -235,40 +207,6 @@ class ThemeSelectionScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/dash');
-                    },
-                    child: Text(
-                      'Guardar',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      primary: Color.fromRGBO(17, 117, 51, 1),
-                      side: BorderSide(width: 2, color: Color.fromRGBO(17, 117, 51, 1)),
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      theme.setThemeData(0, context);
-                      Navigator.pushNamed(context, '/dash');
-                    },
-                    child: Text('Cancelar'),
-                    style: OutlinedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      primary: Color.fromARGB(255, 255, 0, 0),
-                      side: BorderSide(width: 2, color: Color.fromARGB(255, 255, 0, 0)),
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),

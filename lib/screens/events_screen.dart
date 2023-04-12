@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:psmna10/screens/event.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:psmna10/screens/event.dart';
+import 'package:psmna10/database/database_helper.dart';
 
 class CalendarEvents extends StatefulWidget {
   const CalendarEvents({super.key});
@@ -10,44 +13,52 @@ class CalendarEvents extends StatefulWidget {
 }
 
 class _CalendarEventsState extends State<CalendarEvents> {
-  /*@override
-  Widget build(BuildContext context) {
-    return Container();
-  }*/
+
   late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat format = CalendarFormat.month;
-  DateTime selectedDay = DateTime.now();
-  DateTime focusedDay = DateTime.now();
-
-  TextEditingController _eventController = TextEditingController();
+  DateTime daySelection = DateTime.now();
+  DateTime onDay = DateTime.now();
+  Event? objEvent;
+  final _eventController = TextEditingController();
+  final _descController = TextEditingController();
 
   @override
   void initState() {
     selectedEvents = {};
     super.initState();
   }
-
   List<Event> _getEventsfromDay(DateTime date) {
     return selectedEvents[date] ?? [];
   }
-
   @override
   void dispose() {
     _eventController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
+    DatabaseHelper database = DatabaseHelper();
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      objEvent = ModalRoute.of(context)!.settings.arguments as Event;
+      _eventController.text = objEvent!.titlEvento!;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calendar"),
+        title: const Text("Calendario"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/eventsList');
+            },
+            icon: const Icon(Icons.list),
+          )
+        ],
       ),
       body: Column(
         children: [
           TableCalendar(
-            focusedDay: selectedDay,
+            focusedDay: daySelection,
             firstDay: DateTime(1990),
             lastDay: DateTime(2050),
             calendarFormat: format,
@@ -62,38 +73,31 @@ class _CalendarEventsState extends State<CalendarEvents> {
             //Day Changed
             onDaySelected: (DateTime selectDay, DateTime focusDay) {
               setState(() {
-                selectedDay = selectDay;
-                focusedDay = focusDay;
+                daySelection = selectDay;
+                onDay = focusDay;
               });
-              print(focusedDay);
+              print(onDay);
             },
             selectedDayPredicate: (DateTime date) {
-              return isSameDay(selectedDay, date);
+              return isSameDay(daySelection, date);
             },
-
             eventLoader: _getEventsfromDay,
-
-            //To style the Calendar
-            calendarStyle: CalendarStyle(
+            calendarStyle: const CalendarStyle(
               isTodayHighlighted: true,
-              selectedDecoration: BoxDecoration(
+              selectedDecoration: const BoxDecoration(
                 color: Colors.green,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
+                shape: BoxShape.circle,
               ),
               selectedTextStyle: const TextStyle(color: Colors.white),
-              todayDecoration: BoxDecoration(
+              todayDecoration: const BoxDecoration(
                 color: Colors.yellow,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
+                shape: BoxShape.circle,
               ),
               defaultDecoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
               ),
               weekendDecoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
               ),
             ),
             headerStyle: HeaderStyle(
@@ -101,18 +105,18 @@ class _CalendarEventsState extends State<CalendarEvents> {
               titleCentered: true,
               formatButtonShowsNext: false,
               formatButtonDecoration: BoxDecoration(
-                color: Colors.blue,
+
                 borderRadius: BorderRadius.circular(5.0),
               ),
-              formatButtonTextStyle: TextStyle(
+              formatButtonTextStyle: const TextStyle(
                 color: Colors.white,
               ),
             ),
           ),
-          ..._getEventsfromDay(selectedDay).map(
+          ..._getEventsfromDay(daySelection).map(
             (Event event) => ListTile(
               title: Text(
-                event.title,
+                event.titlEvento.toString(),
               ),
             ),
           ),
@@ -122,32 +126,67 @@ class _CalendarEventsState extends State<CalendarEvents> {
         onPressed: () => showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Add Event"),
-            content: TextFormField(
-              controller: _eventController,
+            title: Text("Nuevo Evento"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _eventController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    hintText: 'Title',
+                    labelText: 'Ingresa el titulo del evento',
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _descController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    hintText: 'Description',
+                    labelText: 'Ingresa la descripción del evento',
+                  ),
+                ),
+              ],
             ),
             actions: [
               TextButton(
-                child: Text("Cancel"),
+                child: const Text("Cancelar"),
                 onPressed: () => Navigator.pop(context),
               ),
               TextButton(
-                child: Text("Ok"),
+                child: const Text("Ok"),
                 onPressed: () {
                   if (_eventController.text.isEmpty) {
                   } else {
-                    if (selectedEvents[selectedDay] != null) {
-                      selectedEvents[selectedDay]?.add(
-                        Event(title: _eventController.text),
-                      );
-                    } else {
-                      selectedEvents[selectedDay] = [
-                        Event(title: _eventController.text)
-                      ];
+                    if (objEvent == null) {
+                      database.INSERT_Evento('eventos', {
+                        'titlEvento': _eventController.text,
+                        'dscEvento': _descController.text,
+                        'fechaEvento': daySelection.toString(),
+                      });
+                      if (selectedEvents[daySelection] != null) {
+                        selectedEvents[daySelection]?.add(
+                          Event(titlEvento: _eventController.text),
+                        );
+                      } else {
+                        selectedEvents[daySelection] = [
+                          Event(titlEvento: _eventController.text)
+                        ];
+                      }
                     }
                   }
                   Navigator.pop(context);
                   _eventController.clear();
+                  _descController.clear();
                   setState(() {});
                   return;
                 },
@@ -155,164 +194,9 @@ class _CalendarEventsState extends State<CalendarEvents> {
             ],
           ),
         ),
-        label: Text("Add Event"),
-        icon: Icon(Icons.add),
+        label: Text("New Event"),
+        icon: Icon(Icons.add_box_outlined),
       ),
     );
   }
 }
-
-
-/*class CalendarEvents extends StatefulWidget {
-  @override
-  _CalendarEventsState createState() => _CalendarEventsState();
-}
-
-class _CalendarEvents extends State<CalendarEvents> {
-  Map<DateTime, List<Event>> selectedEvents;
-  CalendarFormat format = CalendarFormat.month;
-  DateTime selectedDay = DateTime.now();
-  DateTime focusedDay = DateTime.now();
-
-  TextEditingController _eventController = TextEditingController();
-
-  @override
-  void initState() {
-    selectedEvents = {};
-    super.initState();
-  }
-
-  List<Event> _getEventsfromDay(DateTime date) {
-    return selectedEvents[date] ?? [];
-  }
-
-  @override
-  void dispose() {
-    _eventController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ESTech Calendar"),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          TableCalendar(
-            focusedDay: selectedDay,
-            firstDay: DateTime(1990),
-            lastDay: DateTime(2050),
-            calendarFormat: format,
-            onFormatChanged: (CalendarFormat _format) {
-              setState(() {
-                format = _format;
-              });
-            },
-            startingDayOfWeek: StartingDayOfWeek.sunday,
-            daysOfWeekVisible: true,
-
-            //Day Changed
-            onDaySelected: (DateTime selectDay, DateTime focusDay) {
-              setState(() {
-                selectedDay = selectDay;
-                focusedDay = focusDay;
-              });
-              print(focusedDay);
-            },
-            selectedDayPredicate: (DateTime date) {
-              return isSameDay(selectedDay, date);
-            },
-
-            eventLoader: _getEventsfromDay,
-
-            //To style the Calendar
-            calendarStyle: CalendarStyle(
-              isTodayHighlighted: true,
-              selectedDecoration: BoxDecoration(
-                color: Colors.blue,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              selectedTextStyle: TextStyle(color: Colors.white),
-              todayDecoration: BoxDecoration(
-                color: Colors.purpleAccent,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              defaultDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              weekendDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-            ),
-            headerStyle: HeaderStyle(
-              formatButtonVisible: true,
-              titleCentered: true,
-              formatButtonShowsNext: false,
-              formatButtonDecoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              formatButtonTextStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          ..._getEventsfromDay(selectedDay).map(
-            (Event event) => ListTile(
-              title: Text(
-                event.title,
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Add Event"),
-            content: TextFormField(
-              controller: _eventController,
-            ),
-            actions: [
-              TextButton(
-                child: Text("Cancel"),
-                onPressed: () => Navigator.pop(context),
-              ),
-              TextButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  if (_eventController.text.isEmpty) {
-                  } else {
-                    if (selectedEvents[selectedDay] != null) {
-                      selectedEvents[selectedDay].add(
-                        Event(title: _eventController.text),
-                      );
-                    } else {
-                      selectedEvents[selectedDay] = [
-                        Event(title: _eventController.text)
-                      ];
-                    }
-                  }
-                  Navigator.pop(context);
-                  _eventController.clear();
-                  setState(() {});
-                  return;
-                },
-              ),
-            ],
-          ),
-        ),
-        label: Text("Add Event"),
-        icon: Icon(Icons.add),
-      ),
-    );
-  }
-}*/

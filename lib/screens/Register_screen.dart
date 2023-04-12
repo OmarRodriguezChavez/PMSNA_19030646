@@ -245,6 +245,7 @@ Padding(padding: const EdgeInsets.symmetric(horizontal: 100),
                       email: emailUser.text,
                       password: passwordUser.text
                       );
+                      Navigator.pushNamed(context, '/dash');
                   },
                 ),
               )

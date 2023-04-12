@@ -10,21 +10,21 @@ import 'screens/login_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
   SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
-  final id_tema=sharedPreferences.getInt('id_tema')??0;
-  runApp(MyApp( id_tema :id_tema));
+  final theme = sharedPreferences.getString('theme') ?? 'light';
+  await Firebase.initializeApp();
+  runApp(MyApp( theme :theme));
 }
 
 class MyApp extends StatelessWidget {
-  final int id_tema;
-  const MyApp({super.key, required this.id_tema});
+  final String theme;
+  const MyApp({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider(id_tema, context)),
+        ChangeNotifierProvider(create: (context) => ThemeProvider(theme)),
         ChangeNotifierProvider(create: (_) => FlagsProvider()),
       ],
       child: PMSNApp(),
@@ -39,7 +39,7 @@ class PMSNApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-      theme: theme.getThemeData(),
+      theme: theme.currentTheme,
       routes: getApplicationRoutes(),
       home: OnboardingPage(),
     );
