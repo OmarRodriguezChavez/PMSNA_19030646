@@ -2,6 +2,7 @@ import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psmna10/provider/theme_provider.dart';
+import 'package:psmna10/screens/list_favorites_cloud.dart';
 import 'package:psmna10/screens/list_post.dart';
 import 'package:psmna10/settings/styles_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: Text('Social TEC'),
       ),
-      body: ListPost(),
+      body: const ListFavoritesCloud(),//ListPost(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
           Navigator.pushNamed(context, '/add').then((value) {
@@ -89,6 +90,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               title: Text('Eventos'),
               subtitle: Text('Mira los eventos que ocurrieron u ocurrirán'),
               leading: Icon(Icons.calendar_month_outlined),
+              trailing: Icon(Icons.chevron_right),
+            ),
+            ListTile(
+              onTap: (){
+                Navigator.pushNamed(context, '/map');
+              },
+              title: Text('Mapas'),
+              subtitle: Text('Conoce las oficinas de Google'),
+              leading: Icon(Icons.map_outlined),
               trailing: Icon(Icons.chevron_right),
             ),
             ListTile(

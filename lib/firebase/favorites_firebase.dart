@@ -6,10 +6,22 @@ class FavoritesFirebase{
   CollectionReference? _favoritesCollection;
 
   FavoritesFirebase(){
-    final _favoritesCollection = _firebase.collection('favorites');
+    _favoritesCollection = _firebase.collection('favoritos');
   }
   
+  Future<void> insFavorite(Map<String,dynamic> map) async{
+    return _favoritesCollection!.doc().set(map);
+  }
+
+  Future<void> updFavorite(Map<String, dynamic> map, String id) async{
+    return _favoritesCollection!.doc(id).update(map);
+  }
+
+  Future<void> delFavorite(String id) async{
+    return _favoritesCollection!.doc(id).delete();
+  }
+
   Stream<QuerySnapshot> getAllFavorites(){
-    
+    return _favoritesCollection!.snapshots();
   }
 }
