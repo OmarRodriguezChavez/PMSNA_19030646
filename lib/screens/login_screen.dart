@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final btnEmail = SocialLoginButton(
         buttonType: SocialLoginButtonType.generalLogin,
         onPressed: () {
-          emailAuth.signInWhithEmalAndPassword(
+          emailAuth.signInWithEmailAndPassword(
             email: emailUser.text, 
             password: passwordUser.text
             ).then((value) {

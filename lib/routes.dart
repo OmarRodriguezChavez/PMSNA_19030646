@@ -4,6 +4,7 @@ import 'package:psmna10/screens/add_post_screen.dart';
 import 'package:psmna10/screens/calendar_list.dart';
 import 'package:psmna10/screens/dashboard_screen.dart';
 import 'package:psmna10/screens/events_screen.dart';
+import 'package:psmna10/screens/list_agents_valorant.dart';
 import 'package:psmna10/screens/list_favorites_cloud.dart';
 import 'package:psmna10/screens/list_popular_videos.dart';
 import 'package:psmna10/screens/login_screen.dart';
@@ -22,6 +23,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/eventsList': (BuildContext context) => const EventList(),
     '/favorites': (BuildContext context) => const ListFavoritesCloud(),
     '/map' : (BuildContext context) => const MapSample(),
+    '/valorant' : (BuildContext context) => const ListAgentsValorant(),
     
   };
 }

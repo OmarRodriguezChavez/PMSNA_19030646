@@ -147,22 +147,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               );
-              final email= TextFormField(
-                decoration: const InputDecoration(
-                  label: Text('Correo electronico'), 
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if(value!.isEmpty)
-                      {
-                        return 'Favor de ingresar tu correo';
-                      }
-                      if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
-                        return 'Ingresa un correo valido';
-                      }
-                      return null;
-                },
-              );
   bool _showPassword=false;
   final spaceHorizont = const SizedBox(height: 20);
   @override
@@ -210,10 +194,26 @@ Padding(padding: const EdgeInsets.symmetric(horizontal: 100),
               spaceHorizont,
               username,
               spaceHorizont,
-             email,
+             TextFormField(
+                controller: emailUser,
+                decoration: const InputDecoration(
+                  label: Text('Correo electronico'), 
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if(value!.isEmpty)
+                      {
+                        return 'Favor de ingresar tu correo';
+                      }
+                      if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                        return 'Ingresa un correo valido';
+                      }
+                      return null;
+                },
+              ),
               spaceHorizont,
               TextFormField(
-                
+                controller: passwordUser,
                 decoration: InputDecoration(
                   label: const Text('Contraseña'), 
                   border: const OutlineInputBorder(),
@@ -241,7 +241,7 @@ Padding(padding: const EdgeInsets.symmetric(horizontal: 100),
                 child: ElevatedButton(
                   child: Text('Registrarme'),
                   onPressed: (){
-                    emailAuth!.createUserWithEmailAndPassword(
+                    emailAuth.registerWithEmailAndPassword(
                       email: emailUser.text,
                       password: passwordUser.text
                       );

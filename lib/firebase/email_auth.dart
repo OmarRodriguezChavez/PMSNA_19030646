@@ -1,33 +1,49 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class EmailAuth{
+class EmailAuth {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth= FirebaseAuth.instance;
 
-  Future<bool> createUserWithEmailAndPassword({required String email, required String password}) async {
-    try{
-      final userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email, 
-        password: password
-      );
+  Future<bool> registerWithEmailAndPassword({
+    required  String email,
+    required  String password,
+  }
+  ) async {
+    try {
+      final UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       userCredential.user!.sendEmailVerification();
+      print('User registered: ${userCredential.user}');
       return true;
-    } catch(e){
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
       return false;
     }
   }
-  Future<bool> signInWhithEmalAndPassword({required String email, required String password}) async {
-    try{
-      final UserCredential = await _auth.signInWithEmailAndPassword(
-        email: email, 
-        password: password
-        );
-        if(UserCredential.user!.emailVerified){
-          return true;
-        }
-    }catch(e){
+
+  Future<bool> signInWithEmailAndPassword({
+    required  String email,
+    required  String password,
+  }
+  ) async {
+    print(email);
+    print(password);
+    try {
+      final UserCredential userCredential = await _auth
+          .signInWithEmailAndPassword(email: email, password: password);
+      print('User logged in: ${userCredential.user}');
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
       return false;
-    }
-    return false;
+    } 
   }
 }

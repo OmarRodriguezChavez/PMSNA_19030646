@@ -102,6 +102,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               trailing: Icon(Icons.chevron_right),
             ),
             ListTile(
+              onTap: (){
+                Navigator.pushNamed(context, '/valorant');
+              },
+              title: Text('API Valorant'),
+              subtitle: Text('Conoce los agentes de Valorant'),
+              leading: Icon(Icons.games_outlined),
+              trailing: Icon(Icons.chevron_right),
+            ),
+            ListTile(
               onTap: () {
                 Navigator.pushNamed(context, '/login');
               },
