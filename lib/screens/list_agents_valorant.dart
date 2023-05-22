@@ -37,7 +37,10 @@ class _ListAgentsValorantState extends State<ListAgentsValorant> {
                 flag= !flag;
               });
             },
-            icon: Icon(Icons.swap_calls_outlined)
+ 
+            icon: flag 
+                ? Icon(Icons.list_alt_outlined)
+                : Icon(Icons.grid_view)
           )
         ],
       ),
@@ -47,12 +50,12 @@ class _ListAgentsValorantState extends State<ListAgentsValorant> {
           builder:(context, AsyncSnapshot<List<ValorantModel>?> snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(1),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: .8,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 10,
+                  childAspectRatio: .7,
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 1,
                 ),
                 itemCount: snapshot.data != null ? snapshot.data!.length : 0,
                 itemBuilder: (context, index) {
@@ -89,7 +92,7 @@ class _ListAgentsValorantState extends State<ListAgentsValorant> {
           builder:(context, AsyncSnapshot<List<ValorantModel>?> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(2),
                 itemCount: snapshot.data != null ? snapshot.data!.length : 0,
                 itemBuilder: (context, index) {
                   ValorantModel valorantModel = snapshot.data![index];

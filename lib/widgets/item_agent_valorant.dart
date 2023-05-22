@@ -15,25 +15,37 @@ class _ItemAgentValorantState extends State<ItemAgentValorant> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(1),
           child: Center(
+            //child: Text ('${widget.valorantModel.killfeedPortrait}'),
             child: Container(
-              height: 150,
-              width: 100,
-              margin: EdgeInsets.all(5),
+              height: 100,
+              width: 130,
+              margin: EdgeInsets.all(1),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                color: Color.fromARGB(255, 170, 170, 170),
+                shape: BoxShape.rectangle,
+                border: Border.all(color: Colors.grey),
               ),
               child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: FadeInImage(
-              fit: BoxFit.fill,
-              placeholder: AssetImage('assets/images/loading.gif'),
-              image: NetworkImage('${widget.valorantModel!.killfeedPortrait}')
-              //NetworkImage('${widget.valorantModel.killfeedPortrait}'),
-              //NetworkImage('https://image.tmdb.org/t/p/w500/${widget.popularModel.posterPath}'),
+            borderRadius: BorderRadius.circular(5),
+            child: Column(
+              children: [
+                Text(
+                  '${widget.valorantModel.displayName}',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                FadeInImage(
+                  fit: BoxFit.none,
+                  placeholder: AssetImage('assets/images/loading.gif'),
+                  image: NetworkImage('${widget.valorantModel.killfeedPortrait}'),
+                ),
+              ],
             ),
           ),
+          
             ),
           ),
         ),

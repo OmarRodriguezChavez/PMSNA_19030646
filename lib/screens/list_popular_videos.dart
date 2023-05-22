@@ -25,7 +25,7 @@ class _ListPopularVideosState extends State<ListPopularVideos> {
     apiPopular = ApiPopular();
     database = DatabaseHelper();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     FlagsProvider flag = Provider.of<FlagsProvider>(context);
